@@ -21,6 +21,8 @@ static void die(const char *s) {
 int N = 801;
 int W;
 int *cells;
+int *row_lo;
+int *row_hi;
 long sweeps = 0;
 
 #define grid(i, j) cells[((i) + 1) * W + (j) + 1]
@@ -76,6 +78,22 @@ static void render(char *filename) {
   free(pixels);
 }
 
+static void compute_row_bounds() {
+  for (int i = 0; i < N; ++i) {
+    int lo = N, hi = -1;
+    for (int j = 0; j <= MAX(i, N - 1 - i) && j < N; ++j) {
+      if ((i - N / 2) * (i - N / 2) + (j - N / 2) * (j - N / 2) <=
+          (N / 2) * (N / 2)) {
+        if (j < lo)
+          lo = j;
+        hi = j;
+      }
+    }
+    row_lo[i] = lo;
+    row_hi[i] = hi;
+  }
+}
+
 static void stabilize() {
   int *const g = cells;
   const int n = N, w = W;
@@ -85,18 +103,16 @@ static void stabilize() {
     changed = 0;
     sweeps++;
     for (int i = 0; i < n; ++i) {
-      for (int j = 0; j <= MAX(i, n - 1 - i); ++j) {
-        if ((i - n / 2) * (i - n / 2) + (j - n / 2) * (j - n / 2) <=
-            (n / 2) * (n / 2)) {
-          if (G(i, j) < 4)
-            continue;
-          changed = 1; // topple it
-          G(i, j) -= 4;
-          G(i - 1, j)++;
-          G(i, j - 1)++;
-          G(i + 1, j)++;
-          G(i, j + 1)++;
-        }
+      const int lo = row_lo[i], hi = row_hi[i];
+      for (int j = lo; j <= hi; ++j) {
+        if (G(i, j) < 4)
+          continue;
+        changed = 1;
+        G(i, j) -= 4;
+        G(i - 1, j)++;
+        G(i, j - 1)++;
+        G(i + 1, j)++;
+        G(i, j + 1)++;
       }
     }
   } while (changed);
@@ -134,11 +150,18 @@ int main(int argc, char **argv) {
   cells = (int *)calloc((size_t)W * W, sizeof(int));
   if (!cells)
     die("malloc failed for grid");
+  row_lo = (int *)malloc(N * sizeof(int));
+  row_hi = (int *)malloc(N * sizeof(int));
+  if (!row_lo || !row_hi)
+    die("malloc failed for row bounds");
+  compute_row_bounds();
 
   find_identity();
 
   render("identity.png");
   fprintf(stderr, "sweeps: %ld\n", sweeps);
   free(cells);
+  free(row_lo);
+  free(row_hi);
   return EXIT_SUCCESS;
 }
