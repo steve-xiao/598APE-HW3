@@ -18,3 +18,10 @@
 
 # Compiled handouts
 /handout/*.pdf
+
+# benchmark artifacts
+*.exe
+identity.png
+perf.data*
+results/*/perf.data*
+results/.stderr
