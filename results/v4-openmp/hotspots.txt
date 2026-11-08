@@ -1,0 +1,15 @@
+    39.59%  sandpile.exe  sandpile.exe          [.] stabilize._omp_fn.0
+    12.34%  sandpile.exe  libgomp.so.1.0.0      [.] 0x0000000000026c72
+    11.54%  sandpile.exe  libgomp.so.1.0.0      [.] 0x0000000000026c76
+     8.33%  sandpile.exe  libgomp.so.1.0.0      [.] 0x0000000000026c70
+     6.69%  sandpile.exe  libgomp.so.1.0.0      [.] 0x0000000000026a82
+     6.48%  sandpile.exe  libgomp.so.1.0.0      [.] 0x0000000000026a86
+     4.89%  sandpile.exe  libgomp.so.1.0.0      [.] 0x0000000000026a80
+     4.53%  sandpile.exe  libgomp.so.1.0.0      [.] 0x0000000000026c7b
+     2.31%  sandpile.exe  libgomp.so.1.0.0      [.] 0x0000000000026a8b
+     0.35%  sandpile.exe  [unknown]             [k] 0xffffffff8d8094fd
+     0.26%  sandpile.exe  libgomp.so.1.0.0      [.] 0x0000000000026c7f
+     0.16%  sandpile.exe  libgomp.so.1.0.0      [.] 0x0000000000023b3d
+     0.15%  sandpile.exe  libgomp.so.1.0.0      [.] 0x0000000000026a8f
+     0.14%  sandpile.exe  sandpile.exe          [.] stbi_zlib_compress
+     0.13%  sandpile.exe  libgomp.so.1.0.0      [.] 0x0000000000026b4f
