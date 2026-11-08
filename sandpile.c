@@ -102,7 +102,9 @@ static void stabilize() {
   do {
     changed = 0;
     sweeps++;
-    for (int i = 0; i < n; ++i) {
+    for (int phase = 0; phase < 3; ++phase) {
+#pragma omp parallel for reduction(| : changed) schedule(static)
+    for (int i = phase; i < n; i += 3) {
       int *c = &G(i, 0), *up = &G(i - 1, 0), *dn = &G(i + 1, 0);
       const int lo = row_lo[i], hi = row_hi[i];
       for (int j = lo; j <= hi; ++j) {
@@ -116,6 +118,7 @@ static void stabilize() {
         up[j] += q;
         dn[j] += q;
       }
+    }
     }
   } while (changed);
 #undef G
