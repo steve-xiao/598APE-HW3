@@ -1,0 +1,19 @@
+# started on Sun Nov  8 14:03:31 2026
+
+
+ Performance counter stats for './sandpile.exe 301':
+
+          2,810.10 msec task-clock                                                            
+     7,373,892,456      cycles                                                                  (66.64%)
+    11,266,566,683      instructions                                                            (83.33%)
+     1,708,747,986      branches                                                                (83.35%)
+       128,264,647      branch-misses                                                           (83.35%)
+         5,748,393      cache-references                                                        (83.35%)
+           977,974      cache-misses                                                            (83.31%)
+
+       2.811697165 seconds time elapsed
+
+       2.809242000 seconds user
+       0.002000000 seconds sys
+
+

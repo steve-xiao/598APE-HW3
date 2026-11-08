@@ -1,0 +1,15 @@
+    98.19%  sandpile.exe  sandpile.exe          [.] stabilize
+     0.47%  sandpile.exe  [unknown]             [k] 0xffffffff8d8094fd
+     0.24%  sandpile.exe  sandpile.exe          [.] stbi_zlib_compress
+     0.09%  sandpile.exe  [unknown]             [k] 0xffffffff8d400ef0
+     0.06%  sandpile.exe  [unknown]             [k] 0xffffffff8d8b8848
+     0.05%  sandpile.exe  [unknown]             [k] 0xffffffff8eb0c7d4
+     0.04%  sandpile.exe  [unknown]             [k] 0xffffffff8d976243
+     0.03%  sandpile.exe  sandpile.exe          [.] stbiw__encode_png_line
+     0.03%  sandpile.exe  [unknown]             [k] 0xffffffff8eb24a20
+     0.03%  sandpile.exe  [unknown]             [k] 0xffffffff8d974d30
+     0.02%  sandpile.exe  [unknown]             [k] 0xffffffff8d96df20
+     0.02%  sandpile.exe  [unknown]             [k] 0xffffffff8d7eddcc
+     0.02%  sandpile.exe  [unknown]             [k] 0xffffffff8d8dbb2d
+     0.02%  sandpile.exe  [unknown]             [k] 0xffffffff8d8b9a65
+     0.01%  sandpile.exe  [unknown]             [k] 0xffffffff8dc000bd
