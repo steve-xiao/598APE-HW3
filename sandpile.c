@@ -19,7 +19,11 @@ static void die(const char *s) {
 }
 
 int N = 801;
-int **grid;
+int W;
+int *cells;
+long sweeps = 0;
+
+#define grid(i, j) cells[((i) + 1) * W + (j) + 1]
 
 // you can also use this function to debug print your sandpile
 static void render(char *filename) {
@@ -31,7 +35,7 @@ static void render(char *filename) {
   for (int i = 0; i < N; ++i) {
     for (int j = 0; j < N; ++j) {
       unsigned char r = 0, g = 0, b = 0;
-      switch (grid[i][j]) {
+      switch (grid(i, j)) {
       case 0: // obsidian
         r = 15;
         g = 15;
@@ -73,41 +77,42 @@ static void render(char *filename) {
 }
 
 static void stabilize() {
+  int *const g = cells;
+  const int n = N, w = W;
+#define G(i, j) g[((i) + 1) * w + (j) + 1]
   int changed = 0;
   do {
     changed = 0;
-    for (int i = 0; i < N; ++i) {
-      for (int j = 0; j <= MAX(i, N - 1 - i); ++j) {
-        if ((i - N / 2) * (i - N / 2) + (j - N / 2) * (j - N / 2) <=
-            (N / 2) * (N / 2)) {
-          if (grid[i][j] < 4)
+    sweeps++;
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j <= MAX(i, n - 1 - i); ++j) {
+        if ((i - n / 2) * (i - n / 2) + (j - n / 2) * (j - n / 2) <=
+            (n / 2) * (n / 2)) {
+          if (G(i, j) < 4)
             continue;
           changed = 1; // topple it
-          grid[i][j] -= 4;
-          if (i > 0)
-            grid[i - 1][j]++;
-          if (j > 0)
-            grid[i][j - 1]++;
-          if (i < N - 1)
-            grid[i + 1][j]++;
-          if (j < N - 1)
-            grid[i][j + 1]++;
+          G(i, j) -= 4;
+          G(i - 1, j)++;
+          G(i, j - 1)++;
+          G(i + 1, j)++;
+          G(i, j + 1)++;
         }
       }
     }
   } while (changed);
+#undef G
 }
 
 void find_identity() {
   for (int i = 0; i < N; ++i) {
     for (int j = 0; j < N; ++j) {
-      grid[i][j] = 6;
+      grid(i, j) = 6;
     }
   }
   stabilize();
   for (int i = 0; i < N; ++i) {
     for (int j = 0; j < N; ++j) {
-      grid[i][j] = 6 - grid[i][j];
+      grid(i, j) = 6 - grid(i, j);
     }
   }
   stabilize();
@@ -125,17 +130,15 @@ int main(int argc, char **argv) {
     die("grid size must be a positive int");
   N = (int)parsed;
 
-  grid = (int **)malloc(N * sizeof(int *));
-  for (int i = 0; i < N; ++i) {
-    grid[i] = (int *)malloc(N * sizeof(int));
-  }
+  W = N + 2;
+  cells = (int *)calloc((size_t)W * W, sizeof(int));
+  if (!cells)
+    die("malloc failed for grid");
 
   find_identity();
 
   render("identity.png");
-  for (int i = 0; i < N; ++i) {
-    free(grid[i]);
-  }
-  free(grid);
+  fprintf(stderr, "sweeps: %ld\n", sweeps);
+  free(cells);
   return EXIT_SUCCESS;
 }
