@@ -109,9 +109,7 @@ static void stabilize() {
       const int lo = row_lo[i], hi = row_hi[i];
       for (int j = lo; j <= hi; ++j) {
         int q = c[j] >> 2;
-        if (!q)
-          continue;
-        changed = 1;
+        changed |= q;
         c[j] -= 4 * q;
         c[j - 1] += q;
         c[j + 1] += q;
